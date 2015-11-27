@@ -1,0 +1,16 @@
+[
+{
+  "modid": "minexmpp",
+  "name": "MineXMPP",
+  "description": "XMPP Client Mod",
+  "version": "0.01",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Steve Hardy"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
