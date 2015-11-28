@@ -12,6 +12,7 @@ import net.minecraftforge.event.ServerChatEvent;
 import java.io.IOException;
 
 import org.jivesoftware.smack.*;
+import org.jivesoftware.smack.SmackException.NotConnectedException;
 import org.jivesoftware.smack.tcp.*;
 import org.jivesoftware.smackx.muc.MultiUserChat;
 import org.jivesoftware.smackx.muc.MultiUserChatManager;
@@ -24,6 +25,8 @@ import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.eventhandler.EventPriority;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 @Mod(modid = MineXMPP.MODID, version = MineXMPP.VERSION)
 public class MineXMPP
@@ -102,5 +105,16 @@ public class MineXMPP
 		}
 	}
 	
+	@SubscribeEvent(priority = EventPriority.LOW)
+    public void chatEvent(ServerChatEvent event)
+    {
+        if (isConnected)
+			try {
+				chatroom.sendMessage(event.message);
+			} catch (NotConnectedException e) {
+				isConnected = false;
+				e.printStackTrace();
+			}
+    }
 
 }
