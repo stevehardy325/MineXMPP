@@ -7,11 +7,14 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
+import net.minecraftforge.event.ServerChatEvent;
 
 import java.io.IOException;
 
 import org.jivesoftware.smack.*;
 import org.jivesoftware.smack.tcp.*;
+import org.jivesoftware.smackx.muc.MultiUserChat;
+import org.jivesoftware.smackx.muc.MultiUserChatManager;
 
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -30,48 +33,61 @@ public class MineXMPP
 
 	private XMPPTCPConnectionConfiguration.Builder configBuilder = XMPPTCPConnectionConfiguration.builder();
 	private AbstractXMPPConnection connection;
+	private MultiUserChatManager manager;
+	private MultiUserChat chatroom;
 
-	private static String username, password, resource, service, host;
+	private static String username, password, resource, service, host, chatRoomName, chatRoomPrefix;
+	
+	private boolean isConnected = false;
 
 	@EventHandler
-	public void preInit(FMLPreInitializationEvent event) {
+	public void preInit(FMLPreInitializationEvent event) 
+	{
 		Configuration config = new Configuration(event.getSuggestedConfigurationFile());
 
 
 		config.load();
 
 		username = config.get(config.CATEGORY_GENERAL, "username", "username").getString();
-		password = config.get(config.CATEGORY_GENERAL, "password", "password").getString();		
+		password = config.get(config.CATEGORY_GENERAL, "password", "").getString();		
 		resource = config.get(config.CATEGORY_GENERAL, "resource", "resource").getString();
 		service = config.get(config.CATEGORY_GENERAL, "service", "service").getString();
 		host = config.get(config.CATEGORY_GENERAL, "host", "host").getString();
+		chatRoomName = config.get(config.CATEGORY_GENERAL, "room-name", "chat").getString();
+		chatRoomPrefix = config.get(config.CATEGORY_GENERAL, "service-chatroom-prefix", "conference").getString();
 
 		config.save();
 	}
 
 	@EventHandler
-	public void init(FMLInitializationEvent event)
+	public void init(FMLInitializationEvent event)	
 	{
 		System.out.println("Test Upload");
-
-
+		
+		//Initialize configurations
 		configBuilder = XMPPTCPConnectionConfiguration.builder();
 		configBuilder.setUsernameAndPassword(username, password);
 		configBuilder.setResource(resource);
 		configBuilder.setServiceName(service);
-		configBuilder.setHost("hephaestus");
+		configBuilder.setHost(host);
 		configBuilder.setSecurityMode(ConnectionConfiguration.SecurityMode.disabled);
 		connection = new XMPPTCPConnection(configBuilder.build());
 
-		//SASLAuthentication.unBlacklistSASLMechanism("PLAIN");
-		//SASLAuthentication.unBlacklistSASLMechanism("DIGEST-MD5");
 
 		try {
 			System.out.println("Attempting to contact XMPP Server");
 			connection.connect();
+			
 			System.out.println("Connection Successful. Attempting to log in");
 			connection.login();
-			System.out.println("Login successful");
+			
+			String fullChatName = chatRoomName+"@"+chatRoomPrefix +"."+service;
+			System.out.println("Login successful. Attemtping to join public chatroom " + fullChatName);
+			manager = MultiUserChatManager.getInstanceFor(connection);
+			chatroom = manager.getMultiUserChat(fullChatName);
+			chatroom.join(username);
+			
+			isConnected = true;
 		} catch (XMPPException e) {
 			System.out.println("XMPP Exception Occurred");
 			e.printStackTrace();
@@ -85,4 +101,6 @@ public class MineXMPP
 			System.out.println("MineXMPP Finished Loading");
 		}
 	}
+	
+
 }
