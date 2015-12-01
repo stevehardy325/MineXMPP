@@ -26,22 +26,22 @@ minecraft {
     runDir = "eclipse"
 }
 
-dependencies {
-    // you may put jars on which you depend on in ./libs
-    // or you may define them like so..
-    //compile "some.group:artifact:version:classifier"
-    //compile "some.group:artifact:version"
-      
-    // real examples
-    //compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
-    //compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
-
-    // for more info...
-    // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
-    // http://www.gradle.org/docs/current/userguide/dependency_management.html
-
+repositories {
+  maven {
+    url 'https://oss.sonatype.org/content/repositories/snapshots'
+  }
+  mavenCentral()
 }
 
+dependencies {
+   compile "org.igniterealtime.smack:smack-java7:4.1.0"
+   // Optional for XMPPTCPConnection
+   compile "org.igniterealtime.smack:smack-tcp:4.1.0"
+   // Optional for XMPP-IM (RFC 6121) support (Roster, Threaded Chats, …)
+   compile "org.igniterealtime.smack:smack-im:4.1.0"
+   // Optional for XMPP extensions support
+   compile "org.igniterealtime.smack:smack-extensions:4.1.0"
+}
 processResources
 {
     // this will ensure that this task is redone when the versions change.
