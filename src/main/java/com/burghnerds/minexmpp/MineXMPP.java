@@ -58,9 +58,9 @@ public class MineXMPP
 
 		username = config.get(Configuration.CATEGORY_GENERAL, "username", "username").getString();
 		password = config.get(Configuration.CATEGORY_GENERAL, "password", "").getString();		
-		resource = config.get(Configuration.CATEGORY_GENERAL, "resource", "resource").getString();
+		resource = config.get(Configuration.CATEGORY_GENERAL, "resource", "MineXMPP").getString();
 		service = config.get(Configuration.CATEGORY_GENERAL, "service", "service").getString();
-		host = config.get(Configuration.CATEGORY_GENERAL, "host", "host").getString();
+		host = config.get(Configuration.CATEGORY_GENERAL, "host", "localhost").getString();
 		chatRoomName = config.get(Configuration.CATEGORY_GENERAL, "room-name", "chat").getString();
 		chatRoomPrefix = config.get(Configuration.CATEGORY_GENERAL, "service-chatroom-prefix", "conference").getString();
 
