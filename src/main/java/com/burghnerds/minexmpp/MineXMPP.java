@@ -1,7 +1,4 @@
-//Needs more work
-
-/*package com.burghnerds.minexmpp.server;
-
+package com.burghnerds.minexmpp;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,8 +42,8 @@ import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.world.WorldEvent.Load;
 import net.minecraftforge.event.world.WorldEvent.Unload;
 
-@Mod(name = MineXMPPServer.NAME, modid = MineXMPPServer.MODID, version = MineXMPPServer.VERSION)
-public class MineXMPPServer
+@Mod(name = MineXMPP.NAME, modid = MineXMPP.MODID, version = MineXMPP.VERSION)
+public class MineXMPP
 {
 	public static final String MODID = "minexmppslient";
 	public static final String VERSION = "0.01";
@@ -62,7 +59,7 @@ public class MineXMPPServer
 	private String chatRoomPrefix;
 
 	@Instance(MODID)
-	public static MineXMPPServer instance;
+	public static MineXMPP instance;
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) 
@@ -126,4 +123,3 @@ public class MineXMPPServer
 		}
 	}
 }
-*/

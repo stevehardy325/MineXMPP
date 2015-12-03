@@ -1,4 +1,4 @@
-package com.burghnerds.minexmpp.client;
+/*package com.burghnerds.minexmpp.client;
 
 import com.burghnerds.minexmpp.XMPPConnectionHandler;
 
@@ -10,6 +10,7 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
@@ -19,7 +20,7 @@ import net.minecraftforge.event.world.WorldEvent.Unload;
 @Mod(name = MineXMPPClient.NAME, modid = MineXMPPClient.MODID, version = MineXMPPClient.VERSION)
 public class MineXMPPClient {
 	public static final String MODID = "mine-xmpp_client";
-	public static final String VERSION = "0.01";
+	public static final String VERSION = "0.7";
 	public static final String NAME = "Mine-XMPP Client";
 
 	private XMPPConnectionHandler chat;
@@ -60,6 +61,7 @@ public class MineXMPPClient {
 
 	@SubscribeEvent
 	public void connectedToWorld(final Load event) {
+		if (MinecraftServer.getServer().isSinglePlayer())
 		this.chat.connect();
 	}
 
@@ -72,4 +74,4 @@ public class MineXMPPClient {
 	public void chatEvent(final ClientChatReceivedEvent event) {
 		this.chat.send(event.message.getUnformattedText());
 	}
-}
+}*/
